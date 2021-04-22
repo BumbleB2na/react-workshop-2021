@@ -1,3 +1,14 @@
+Took this wonderful training as a 2-day instructor led course and highly recommend the React team's corporate training.
+
+Gotta keep up the skillz so my changes go in origin/my-final, set as the default branch for this forked repository.
+
+Leaving origin/master alone to be able to pull latest from upstream/master. Then I can rebase origin/my-final with origin/master. 
+
+Usually do work in a separate branch then make a new Pull Request, being careful to set base:my-final as the target branch. I like to use the big flashy github buttons to create a new PR from a branch but it likes to default base target to upstream master.
+
+*README.md from forked repository:*
+---
+
 # Welcome to React Training!
 
 We have new workshop material for 2021 🎉. Be sure to checkout https://reacttraining.com/workshops. We offer:
