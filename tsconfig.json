@@ -5,5 +5,5 @@
   "____comment__": "uses for intellisense to use the tsconfig.json filename so that files in",
   "_____comment_": "the courses don't show a bunch of errors.",
   "extends": "./tsconfig.base.json",
-  "include": ["courses"]
+  "include": ["apps", "types", "__mocks__/@types", "courses"]
 }
