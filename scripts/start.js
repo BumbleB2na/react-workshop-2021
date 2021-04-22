@@ -13,11 +13,11 @@ const cli = require('./cli')
 const { appPath, alias, selectedCourse, selectedLessonType, selectedLesson } = cli()
 
 /////////////// CREATE TS CONFIG FOR LESSON SELECTION
-let tsConfigPath = ensureDevTsConfig({ selectedCourse, selectedLesson, selectedLessonType })
+let tsConfigPath = ensureDevTsConfig({ selectedCourse, selectedLesson })
 
 /////////////// START SERVER
 const port = 3000
-const appEntry = alias['YesterTech\\index'] || alias['ProjectPlanner\\index'] || path.resolve(appPath, 'entry.js')
+const appEntry = path.resolve(appPath, 'entry.js')
 const server = new WebpackDevServer(
   webpack(config(appEntry, alias, { tsConfigPath })),
   devServerOptions
@@ -64,14 +64,14 @@ server.listen(port, 'localhost', function (err) {
   }
 })
 
-function ensureDevTsConfig({ selectedCourse, selectedLesson, selectedLessonType }) {
+function ensureDevTsConfig({ selectedCourse, selectedLesson }) {
   try {
     let tsconfig = JSON.parse(fs.readFileSync(path.join(rootDir, 'tsconfig.json'), 'utf-8'))
     let tsconfigDevPath = path.join(rootDir, 'tsconfig.dev.json')
 
     let devTsConfig = {
       extends: './tsconfig.json',
-      include: [...tsconfig.include, path.join('courses', selectedCourse, selectedLesson, selectedLessonType)],
+      include: [...tsconfig.include, path.join('courses', selectedCourse, selectedLesson)],
     }
 
     fs.writeFileSync(tsconfigDevPath, JSON.stringify(devTsConfig), 'utf-8')
