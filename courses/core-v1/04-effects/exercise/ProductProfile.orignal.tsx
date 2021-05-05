@@ -13,29 +13,12 @@ import { useProduct } from 'YesterTech/useProduct'
 import { useAuthState } from 'YesterTech/AuthState'
 import './styles.scss'
 import { Chat } from './Chat'
-import { useEffect, useState } from 'react'
-import ms from 'ms'
 
 function ProductProfile() {
-  const [chatIsVisible, setChatIsVisible] = useState(true);
-  const [chatIsDismissing, setChatIsDismissing] = useState(false);
+  let chatIsVisible = true
   let { productId } = useParams<{ productId: any }>()
   let { user } = useAuthState()
   productId = parseInt(productId, 10)
-
-  const CHAT_DISMISS_DELAY = ms('5 seconds');  // 5 * 60
-  const CHAT_DISMISSING_LIFESPAN = ms('.6 seconds');  // .6 * 60
-  useEffect(() => {
-		const dismissChatId = setTimeout(() => {
-			setChatIsDismissing(true);
-		}, CHAT_DISMISS_DELAY);
-		
-		const hideChatId = setTimeout(() => {
-			setChatIsVisible(false);
-		}, CHAT_DISMISS_DELAY + CHAT_DISMISSING_LIFESPAN);
-
-		return () => { clearTimeout(dismissChatId); clearTimeout(hideChatId); }
-  }, [chatIsVisible, CHAT_DISMISS_DELAY, chatIsDismissing, CHAT_DISMISSING_LIFESPAN]);
 
   // Cart
   let { addToCart, updateQuantity, getQuantity } = useShoppingCart()
@@ -50,7 +33,7 @@ function ProductProfile() {
 
   return (
     <div>
-      {chatIsVisible ? <Chat isDismissing={chatIsDismissing} sender={user?.name || 'Customer'} /> : null}
+      {chatIsVisible ? <Chat sender={user?.name || 'Customer'} /> : null}
       <div className="spacing">
         <Columns gutters>
           <Column>

@@ -58,7 +58,13 @@ function reducer(state: ChatState, action: ChatAction): ChatState {
   }
 }
 
-export function Chat({ sender }: { sender: string }) {
+
+interface ChatProps {
+	sender: string; 
+	isDismissing?: boolean;
+}
+
+export function Chat({ sender, isDismissing = false }: ChatProps) {
   let [isOpen, setIsOpen] = React.useState(true)
   let [{ chatInput, messages }, dispatch] = React.useReducer(reducer, {
     chatInput: '',
@@ -77,9 +83,9 @@ export function Chat({ sender }: { sender: string }) {
       dispatch({ type: 'RECEIVE', message })
     }, []),
   })
-
+  
   return (
-    <aside className={`chat chat--${isOpen ? 'open' : 'closed'}`}>
+    <aside className={`chat chat--${isOpen ? 'open' : 'closed'}${isDismissing ? ' chat-slide-down':''}`}>
       <header className="chat__header">
         <h1 className="chat__heading">Chat with us!</h1>
         <button
