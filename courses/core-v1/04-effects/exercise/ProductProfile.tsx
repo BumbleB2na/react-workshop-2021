@@ -16,14 +16,11 @@ import { Chat } from './Chat'
 import { useEffect, useState } from 'react'
 import ms from 'ms'
 
-function ProductProfile() {
+function useChatTransition() {
   const [chatIsVisible, setChatIsVisible] = useState(true);
 	const [chatIsEntering, setChatIsEntering] = useState(true);
   const [chatIsDismissing, setChatIsDismissing] = useState(false);
-  let { productId } = useParams<{ productId: any }>()
-  let { user } = useAuthState()
-  productId = parseInt(productId, 10)
-
+	
 	// animated transition: slide in and wait, then slide out and hide
   const CHAT_VISIBLE_LIFESPAN = ms('5 seconds');  // 5 * 60
   const CHAT_TRANSITION_LIFESPAN = ms('.6 seconds');  // .6 * 60
@@ -43,6 +40,16 @@ function ProductProfile() {
 			clearTimeout(endDismissChatId);
 		}
   }, [chatIsVisible, CHAT_VISIBLE_LIFESPAN, chatIsEntering, chatIsDismissing, CHAT_TRANSITION_LIFESPAN]);
+
+	return { chatIsVisible, chatIsEntering, chatIsDismissing }
+}
+
+function ProductProfile() {
+  let { productId } = useParams<{ productId: any }>()
+  let { user } = useAuthState()
+  productId = parseInt(productId, 10)
+
+	const { chatIsVisible, chatIsEntering, chatIsDismissing } = useChatTransition();
 
   // Cart
   let { addToCart, updateQuantity, getQuantity } = useShoppingCart()
