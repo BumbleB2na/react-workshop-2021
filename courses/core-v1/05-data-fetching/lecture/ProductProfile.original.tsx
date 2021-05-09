@@ -11,33 +11,16 @@ import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 import { Product } from 'YesterTech/types'
 import api from 'YesterTech/api'
-import { useEffect, useState } from 'react'
 
 // https://twitter.com/dan_abramov/status/1313891773224189953
-
-function useProduct(productId: number) {
-  const [product, setProduct] = useState(null)
-
-  useEffect(() => {
-    let isCurrent = true
-    api.products.getProduct(productId).then((product: Product) => {
-      if (!isCurrent) return
-      setProduct(product)
-    })
-    return () => {
-      isCurrent = false
-    }
-  }, [productId])
-
-  // Return product so it can be used by the component that uses this custom hook
-  return product
-}
 
 function ProductProfile() {
   let { productId } = useParams<{ productId: any }>()
   productId = parseInt(productId, 10)
 
-  const product: Product | null = useProduct(productId)
+  let product: Product | null = null
+
+  api.products.getProduct(productId)
 
   // Cart
   let { addToCart, updateQuantity, getQuantity } = useShoppingCart()
