@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ProductFilters from 'YesterTech/ProductFilters'
 
-function ProductsSidebar() {
+function useMedia() {
 	const query = '(min-width: 800px)';
 	const [isWide, setIsWide] = useState(window.matchMedia(query).matches);
 
@@ -13,6 +13,12 @@ function ProductsSidebar() {
 		media.addEventListener('change', listener);
 		return () => media.removeEventListener('change', listener);
 	}, [isWide]);
+
+	return isWide;
+}
+
+function ProductsSidebar() {
+	const isWide = useMedia();
 
 	if(!isWide) return <></>;
 
