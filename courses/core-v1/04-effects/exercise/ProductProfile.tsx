@@ -17,31 +17,37 @@ import { useEffect, useState } from 'react'
 import ms from 'ms'
 
 function useChatTransition() {
-  const [chatIsVisible, setChatIsVisible] = useState(true);
-	const [chatIsEntering, setChatIsEntering] = useState(true);
-  const [chatIsDismissing, setChatIsDismissing] = useState(false);
-	
-	// animated transition: slide in and wait, then slide out and hide
-  const CHAT_VISIBLE_LIFESPAN = ms('5 seconds');  // 5 * 60
-  const CHAT_TRANSITION_LIFESPAN = ms('.6 seconds');  // .6 * 60
-  useEffect(() => {
-		const endEnteredChatId = setTimeout(() => {
-			setChatIsEntering(false);
-		}, CHAT_TRANSITION_LIFESPAN);
-		const startDismissChatId = setTimeout(() => {
-			setChatIsDismissing(true);
-		}, CHAT_VISIBLE_LIFESPAN);
-		const endDismissChatId = setTimeout(() => {
-			setChatIsVisible(false);
-		}, CHAT_VISIBLE_LIFESPAN + CHAT_TRANSITION_LIFESPAN);
-		return () => { 
-			clearTimeout(endEnteredChatId);
-			clearTimeout(startDismissChatId);
-			clearTimeout(endDismissChatId);
-		}
-  }, [chatIsVisible, CHAT_VISIBLE_LIFESPAN, chatIsEntering, chatIsDismissing, CHAT_TRANSITION_LIFESPAN]);
+  const [chatIsVisible, setChatIsVisible] = useState(true)
+  const [chatIsEntering, setChatIsEntering] = useState(true)
+  const [chatIsDismissing, setChatIsDismissing] = useState(false)
 
-	return { chatIsVisible, chatIsEntering, chatIsDismissing }
+  // animated transition: slide in and wait, then slide out and hide
+  const CHAT_VISIBLE_LIFESPAN = ms('5 seconds') // 5 * 60
+  const CHAT_TRANSITION_LIFESPAN = ms('.6 seconds') // .6 * 60
+  useEffect(() => {
+    const endEnteredChatId = setTimeout(() => {
+      setChatIsEntering(false)
+    }, CHAT_TRANSITION_LIFESPAN)
+    const startDismissChatId = setTimeout(() => {
+      setChatIsDismissing(true)
+    }, CHAT_VISIBLE_LIFESPAN)
+    const endDismissChatId = setTimeout(() => {
+      setChatIsVisible(false)
+    }, CHAT_VISIBLE_LIFESPAN + CHAT_TRANSITION_LIFESPAN)
+    return () => {
+      clearTimeout(endEnteredChatId)
+      clearTimeout(startDismissChatId)
+      clearTimeout(endDismissChatId)
+    }
+  }, [
+    chatIsVisible,
+    CHAT_VISIBLE_LIFESPAN,
+    chatIsEntering,
+    chatIsDismissing,
+    CHAT_TRANSITION_LIFESPAN,
+  ])
+
+  return { chatIsVisible, chatIsEntering, chatIsDismissing }
 }
 
 function ProductProfile() {
@@ -49,7 +55,7 @@ function ProductProfile() {
   let { user } = useAuthState()
   productId = parseInt(productId, 10)
 
-	const { chatIsVisible, chatIsEntering, chatIsDismissing } = useChatTransition();
+  const { chatIsVisible, chatIsEntering, chatIsDismissing } = useChatTransition()
 
   // Cart
   let { addToCart, updateQuantity, getQuantity } = useShoppingCart()
@@ -64,7 +70,13 @@ function ProductProfile() {
 
   return (
     <div>
-      {chatIsVisible ? <Chat isEntering={chatIsEntering} isDismissing={chatIsDismissing} sender={user?.name || 'Customer'} /> : null}
+      {chatIsVisible ? (
+        <Chat
+          isEntering={chatIsEntering}
+          isDismissing={chatIsDismissing}
+          sender={user?.name || 'Customer'}
+        />
+      ) : null}
       <div className="spacing">
         <Columns gutters>
           <Column>
