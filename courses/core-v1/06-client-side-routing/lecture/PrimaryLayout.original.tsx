@@ -10,7 +10,6 @@ import ProductImage from 'YesterTech/ProductImage'
 import StarRatings from 'YesterTech/StarRatings'
 import ProductFilterItem from 'YesterTech/ProductFilterItem'
 import ProductSubNav from 'YesterTech/ProductSubNav'
-import { render } from '@testing-library/react'
 
 const PrimaryLayout = (): React.ReactElement => {
   return (
@@ -19,14 +18,7 @@ const PrimaryLayout = (): React.ReactElement => {
         <PrimaryHeader />
         <ProductSubNav />
         <main className="primary-content">
-					<Switch>
-						<Route path="/products">
-							<ProductsLayout />
-						</Route>
-						<Route path="/" exact>
-							<Home />
-						</Route>
-					</Switch>
+          <Home />
         </main>
         <PrimaryFooter />
       </div>
@@ -43,12 +35,12 @@ function PrimaryHeader(): React.ReactElement {
         <Logo />
       </div>
       <nav className="horizontal-spacing-large align-right">
-        <Link to="/" className="primary-nav-item">
+        <a href="/" className="primary-nav-item">
           Home
-        </Link>
-        <Link to="/products" className="primary-nav-item">
+        </a>
+        <a href="/products" className="primary-nav-item">
           Products
-        </Link>
+        </a>
       </nav>
     </header>
   )
@@ -74,69 +66,38 @@ function PrimaryFooter(): React.ReactElement {
 function ProductsLayout(): React.ReactElement {
   return (
     <div className="products-layout">
-			<ProductsSidebar />
+      <aside className="spacing">
+        <section className="spacing-small">
+          <Heading size={3}>Categories</Heading>
+          <ProductFilterItem item="computers">Computers</ProductFilterItem>
+          <ProductFilterItem item="games">Games</ProductFilterItem>
+          <ProductFilterItem item="music">Music</ProductFilterItem>
+        </section>
+      </aside>
       <div>
-				<Switch>
-					<Route path="/products" exact>
-        		<BrowseProducts />
-					</Route>
-					<Route path="/products/:productId">
-						<ProductProfile />
-					</Route>
-					<Redirect to="/products" />
-				</Switch>
+        <BrowseProducts />
+        {/* BrowseProducts is the page being shown, but other pages could go here like ProductProfile */}
       </div>
     </div>
   )
 }
 
-function ProductsSidebar(): React.ReactElement {
-	return (
-		<aside className="spacing">
-			<section className="spacing-small">
-				<Heading size={3}>Categories</Heading>
-				<ProductFilterItem item="computers">Computers</ProductFilterItem>
-				<ProductFilterItem item="games">Games</ProductFilterItem>
-				<ProductFilterItem item="music">Music</ProductFilterItem>
-			</section>
-			<p>Note: sidebar non-functional</p>
-		</aside>
-	)
-}
-
 function ProductProfile(): React.ReactElement {
-	let { productId } = useParams<{ productId: any}>()
-  productId = parseInt(productId, 10)
-
-	const [product, setProduct] = React.useState(null)
-
-	React.useEffect(() => {
-		let isCurrent = true
-		api.products.getProduct(productId).then(response => {
-			if (!isCurrent) return
-			console.log('Product = ' + JSON.stringify(response))
-			setProduct(response)
-		})
-		return () => { isCurrent = false }
-	}, [productId])
-	
-
-  return product && (
+  return (
     <div className="spacing">
       <Columns gutters>
         <Column>
-          <ProductImage src={product.imagePath} alt={product.name} size={15} />
+          <ProductImage src="/images/products/mario-kart.jpg" alt="Mario Kart" size={15} />
         </Column>
         <Column flex className="spacing">
-          <Heading>{product.name}</Heading>
-          <StarRatings rating={product.rating} />
+          <Heading>Mario Kart</Heading>
+          <StarRatings rating={4.5} />
           <hr />
-          <div className="text-small text-capitalize">
-            <div>Brand: {product.brand}</div>
-            <div>Category: {product.category}</div>
-            <div>Condition: {product.condition}</div>
+          <div className="text-small">
+            <div>Brand: Nintendo</div>
+            <div>Category: Games</div>
+            <div>Condition: Good</div>
           </div>
-					<p>{product.description}</p>
         </Column>
       </Columns>
     </div>
@@ -148,13 +109,13 @@ function BrowseProducts(): React.ReactElement {
     <div className="spacing">
       <ul>
         <li>
-          <Link to="/products/1">Nintendo NES</Link>
+          <a href="/products/1">Nintendo NES</a>
         </li>
         <li>
-          <Link to="/products/2">Donkey Kong Country</Link>
+          <a href="/products/2">Donkey Kong Country</a>
         </li>
         <li>
-          <Link to="/products/3">Mario Kart</Link>
+          <a href="/products/3">Mario Kart</a>
         </li>
       </ul>
     </div>
