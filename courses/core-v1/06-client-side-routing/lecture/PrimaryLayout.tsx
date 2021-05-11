@@ -19,14 +19,14 @@ const PrimaryLayout = (): React.ReactElement => {
         <PrimaryHeader />
         <ProductSubNav />
         <main className="primary-content">
-					<Switch>
-						<Route path="/products">
-							<ProductsLayout />
-						</Route>
-						<Route path="/" exact>
-							<Home />
-						</Route>
-					</Switch>
+          <Switch>
+            <Route path="/products">
+              <ProductsLayout />
+            </Route>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+          </Switch>
         </main>
         <PrimaryFooter />
       </div>
@@ -74,72 +74,75 @@ function PrimaryFooter(): React.ReactElement {
 function ProductsLayout(): React.ReactElement {
   return (
     <div className="products-layout">
-			<ProductsSidebar />
+      <ProductsSidebar />
       <div>
-				<Switch>
-					<Route path="/products" exact>
-        		<BrowseProducts />
-					</Route>
-					<Route path="/products/:productId">
-						<ProductProfile />
-					</Route>
-					<Redirect to="/products" />
-				</Switch>
+        <Switch>
+          <Route path="/products" exact>
+            <BrowseProducts />
+          </Route>
+          <Route path="/products/:productId">
+            <ProductProfile />
+          </Route>
+          <Redirect to="/products" />
+        </Switch>
       </div>
     </div>
   )
 }
 
 function ProductsSidebar(): React.ReactElement {
-	return (
-		<aside className="spacing">
-			<section className="spacing-small">
-				<Heading size={3}>Categories</Heading>
-				<ProductFilterItem item="computers">Computers</ProductFilterItem>
-				<ProductFilterItem item="games">Games</ProductFilterItem>
-				<ProductFilterItem item="music">Music</ProductFilterItem>
-			</section>
-			<p>Note: sidebar non-functional</p>
-		</aside>
-	)
+  return (
+    <aside className="spacing">
+      <section className="spacing-small">
+        <Heading size={3}>Categories</Heading>
+        <ProductFilterItem item="computers">Computers</ProductFilterItem>
+        <ProductFilterItem item="games">Games</ProductFilterItem>
+        <ProductFilterItem item="music">Music</ProductFilterItem>
+      </section>
+      <p>Note: sidebar non-functional</p>
+    </aside>
+  )
 }
 
 function ProductProfile(): React.ReactElement {
-	let { productId } = useParams<{ productId: any}>()
+  let { productId } = useParams<{ productId: any }>()
   productId = parseInt(productId, 10)
 
-	const [product, setProduct] = React.useState(null)
+  const [product, setProduct] = React.useState(null)
 
-	React.useEffect(() => {
-		let isCurrent = true
-		api.products.getProduct(productId).then(response => {
-			if (!isCurrent) return
-			console.log('Product = ' + JSON.stringify(response))
-			setProduct(response)
-		})
-		return () => { isCurrent = false }
-	}, [productId])
-	
+  React.useEffect(() => {
+    let isCurrent = true
+    api.products.getProduct(productId).then((response) => {
+      if (!isCurrent) return
+      console.log('Product = ' + JSON.stringify(response))
+      setProduct(response)
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [productId])
 
-  return product && (
-    <div className="spacing">
-      <Columns gutters>
-        <Column>
-          <ProductImage src={product.imagePath} alt={product.name} size={15} />
-        </Column>
-        <Column flex className="spacing">
-          <Heading>{product.name}</Heading>
-          <StarRatings rating={product.rating} />
-          <hr />
-          <div className="text-small text-capitalize">
-            <div>Brand: {product.brand}</div>
-            <div>Category: {product.category}</div>
-            <div>Condition: {product.condition}</div>
-          </div>
-					<p>{product.description}</p>
-        </Column>
-      </Columns>
-    </div>
+  return (
+    product && (
+      <div className="spacing">
+        <Columns gutters>
+          <Column>
+            <ProductImage src={product.imagePath} alt={product.name} size={15} />
+          </Column>
+          <Column flex className="spacing">
+            <Heading>{product.name}</Heading>
+            <StarRatings rating={product.rating} />
+            <hr />
+            <div className="text-small text-capitalize">
+              <div>Brand: {product.brand}</div>
+              <div>Category: {product.category}</div>
+              <div>Condition: {product.condition}</div>
+            </div>
+            <p>{product.description}</p>
+          </Column>
+        </Columns>
+      </div>
+    )
   )
 }
 

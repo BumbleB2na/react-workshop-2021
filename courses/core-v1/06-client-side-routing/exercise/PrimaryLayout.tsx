@@ -21,10 +21,10 @@ export default function PrimaryLayout(): React.ReactElement {
     <div className="primary-layout">
       <div>
         <PrimaryHeader />
-				<Route path="/products">
-        	<ProductSubNav />
-				</Route>
-				<PrimaryContent />
+        <Route path="/products">
+          <ProductSubNav />
+        </Route>
+        <PrimaryContent />
         <PrimaryFooter />
       </div>
     </div>
@@ -35,33 +35,33 @@ function PrimaryContent(): React.ReactElement {
   const { cart } = useShoppingCart()
   const { authenticated } = useAuthState()
 
-	return (
-		<main className="primary-content">
-			<Switch>
-				<Route path="/" exact>
-					<Home />
-				</Route>
-				<Route path="/products">
-					<ProductsLayout />
-				</Route>
-				<Route path="/login">
-					<LoginForm />
-				</Route>
-				<Route path="/signup">
-					<SignupForm />
-				</Route>
-				{cart.length && (
-					<Route path="/checkout">
-						<Checkout />
-					</Route>
-				)}
-				{authenticated && (
-					<Route path="/account">
-						<Account />
-					</Route>
-				)}
-				<Redirect to="/" />
-			</Switch>
-		</main>
-	)
+  return (
+    <main className="primary-content">
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/products">
+          <ProductsLayout />
+        </Route>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
+        <Route path="/signup">
+          <SignupForm />
+        </Route>
+        {cart.length && (
+          <Route path="/checkout">
+            <Checkout />
+          </Route>
+        )}
+        {authenticated && (
+          <Route path="/account">
+            <Account />
+          </Route>
+        )}
+        <Redirect to="/" />
+      </Switch>
+    </main>
+  )
 }
