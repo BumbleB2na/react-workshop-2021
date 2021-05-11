@@ -102,7 +102,7 @@ function ProductsSidebar(): React.ReactElement {
       <p>Note: sidebar non-functional</p>
     </aside>
   )
-}
+} 
 
 function ProductProfile(): React.ReactElement {
   let { productId } = useParams<{ productId: any }>()
