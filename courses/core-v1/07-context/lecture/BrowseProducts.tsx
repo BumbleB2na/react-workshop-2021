@@ -2,38 +2,32 @@ import * as React from 'react'
 import { useProducts } from './utils'
 // import { useShoppingCart } from './ShoppingCartState'
 import BrowseProductItem from './BrowseProductItem'
+import { NavLink } from 'react-router-dom'
 
-function BrowseProducts() {
+interface BrowseProductsProps {
+  addToCart: (productId: number, name: string, price: number) => void
+  updateQuantity: (productId: number, quantity: number) => void
+  getQuantity: (productId: number) => number
+	cart: any[]
+}
+
+function BrowseProducts({
+  addToCart,
+  updateQuantity,
+  getQuantity,
+	cart
+ }: BrowseProductsProps) {
   const products = useProducts()
-  // const [cart, setCart] = React.useState([])
-
-  // function addToCart(productId, name, price) {
-  //   const newCart = cart.concat([{ productId, quantity: 1, name, price }])
-  //   setCart(newCart)
-  // }
-
-  // function updateQuantity(productId, quantity) {
-  //   let newCart
-  //   if (quantity > 0) {
-  //     newCart = cart.map(product => {
-  //       return product.productId === productId ? { ...product, quantity } : product
-  //     })
-  //   } else {
-  //     newCart = cart.filter(product => product.productId !== productId)
-  //   }
-  //   setCart(newCart)
-  // }
-
-  // function getQuantity(productId) {
-  //   if (!Array.isArray(cart)) return 0
-  //   return (cart.find(p => p.productId === productId) || {}).quantity || 0
-  // }
 
   return (
     <div className="spacing">
-      <nav>
-        <span>View Cart (3)</span>
-      </nav>
+      {cart.length > 0 ? (
+				<nav>
+					<NavLink to="/checkout">View Cart ({cart.length})</NavLink>
+				</nav>
+			) : (
+				<span>Cart Empty</span>
+			)}
       <hr />
       {products.map((product) => {
         return (
@@ -43,6 +37,9 @@ function BrowseProducts() {
             name={product.name}
             price={product.price}
             imagePath={product.imagePath}
+						addToCart={addToCart}
+						updateQuantity={updateQuantity}
+						getQuantity={getQuantity}
           />
         )
       })}
