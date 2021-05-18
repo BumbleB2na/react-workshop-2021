@@ -1,35 +1,29 @@
 import * as React from 'react'
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi'
 
-// import { useFavoriteProduct } from 'YesterTech/FavoriteProductState'
+import { useFavoriteProduct } from 'YesterTech/FavoriteProductState'
 
 interface SaveFavoriteProps {
   productId: number
 }
 
 function SaveFavorite({ productId }: SaveFavoriteProps): React.ReactElement {
-  const [favorites, setFavorites] = React.useState<number[]>([])
+  const favourites = useFavoriteProduct()
 
-  // See if our productId is one of the favorites
-  const favorite = favorites.includes(productId)
+  const favourite = favourites.isFavorite(productId)
 
   function handleClick() {
-    if (favorite) {
-      // Remove favorites by filtering an array down to everything that
-      // doesn't match the productId
-      setFavorites(favorites.filter((id) => id !== productId))
+    if (favourite) {
+      favourites.removeFavorite(productId)
     } else {
-      // Add favorites by concatenating two arrays together. If favorites
-      // looks like this: [1, 2] and you concat an array that looks
-      // like this [3], the end result is [1,2,3]
-      setFavorites(favorites.concat([productId]))
+      favourites.addFavorite(productId)
     }
   }
 
   return (
     <button className="text-small as-link" onClick={handleClick}>
       <span>Favorite</span>
-      {favorite ? <HiHeart color="#f00" /> : <HiOutlineHeart />}
+      {favourite ? <HiHeart color="#f00" /> : <HiOutlineHeart />}
     </button>
   )
 }

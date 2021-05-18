@@ -2,17 +2,15 @@ import * as React from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
-function Quantity(): React.ReactElement {
-  const [quantity, setQuantity] = React.useState(0)
-
+function Quantity({ quantity, onChange }): React.ReactElement {
   function subtract() {
     if (quantity > 0) {
-      setQuantity(quantity - 1)
+      onChange(quantity - 1)
     }
   }
 
   function add() {
-    setQuantity(quantity + 1)
+    onChange(quantity + 1)
   }
 
   return (
@@ -37,7 +35,7 @@ function Quantity(): React.ReactElement {
             onChange={(event) => {
               const sanitizedValue = event.target.value.replace(/[^0-9]/g, '')
               const newVal = parseInt(sanitizedValue)
-              setQuantity(isNaN(newVal) ? 0 : newVal)
+              onChange(isNaN(newVal) ? 0 : newVal)
             }}
           />
         </div>
