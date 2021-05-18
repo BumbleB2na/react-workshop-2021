@@ -12,9 +12,9 @@ function App() {
     <BrowserRouter>
       <AuthStateProvider>
         <ShoppingCartProvider>
-					<FavoriteProductProvider>
-          	<PrimaryLayout />
-					</FavoriteProductProvider>
+          <FavoriteProductProvider>
+            <PrimaryLayout />
+          </FavoriteProductProvider>
         </ShoppingCartProvider>
       </AuthStateProvider>
     </BrowserRouter>

@@ -48,7 +48,9 @@ function BrowseProductItem({
             'Add To Cart'
           ) : (
             <>
-              <Link to="/checkout"><MdShoppingCart /> Checkout</Link>
+              <Link to="/checkout">
+                <MdShoppingCart /> Checkout
+              </Link>
             </>
           )}
         </button>

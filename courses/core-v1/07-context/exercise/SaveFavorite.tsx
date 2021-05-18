@@ -8,17 +8,17 @@ interface SaveFavoriteProps {
 }
 
 function SaveFavorite({ productId }: SaveFavoriteProps): React.ReactElement {
-	const favourites = useFavoriteProduct();
-	
-	const favourite = favourites.isFavorite(productId)
+  const favourites = useFavoriteProduct()
 
-	function handleClick() {
-		if (favourite) {
-			favourites.removeFavorite(productId)
-		} else {
-			favourites.addFavorite(productId)
-		}
-	}
+  const favourite = favourites.isFavorite(productId)
+
+  function handleClick() {
+    if (favourite) {
+      favourites.removeFavorite(productId)
+    } else {
+      favourites.addFavorite(productId)
+    }
+  }
 
   return (
     <button className="text-small as-link" onClick={handleClick}>

@@ -5,12 +5,12 @@ import 'YesterTech/Quantity.scss'
 function Quantity({ quantity, onChange }): React.ReactElement {
   function subtract() {
     if (quantity > 0) {
-			onChange(quantity - 1)
+      onChange(quantity - 1)
     }
   }
 
   function add() {
-		onChange(quantity + 1)
+    onChange(quantity + 1)
   }
 
   return (
@@ -35,7 +35,7 @@ function Quantity({ quantity, onChange }): React.ReactElement {
             onChange={(event) => {
               const sanitizedValue = event.target.value.replace(/[^0-9]/g, '')
               const newVal = parseInt(sanitizedValue)
-							onChange(isNaN(newVal) ? 0 : newVal)
+              onChange(isNaN(newVal) ? 0 : newVal)
             }}
           />
         </div>
